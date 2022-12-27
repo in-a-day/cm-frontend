@@ -5,6 +5,10 @@ interface RoleParams {
   roleName: string
 }
 
+export const loginTest = (data: UserType): Promise<IResponse<UserType>> => {
+  return request.get({ url: '/goo', data })
+}
+
 export const loginApi = (data: UserType): Promise<IResponse<UserType>> => {
   return request.post({ url: '/user/login', data })
 }

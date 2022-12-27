@@ -4,7 +4,7 @@ import { Form } from '@/components/Form'
 import { useI18n } from '@/hooks/web/useI18n'
 import { ElButton, ElCheckbox, ElLink } from 'element-plus'
 import { useForm } from '@/hooks/web/useForm'
-import { loginApi, getTestRoleApi, getAdminRoleApi } from '@/api/login'
+import { loginTest, loginApi, getTestRoleApi, getAdminRoleApi } from '@/api/login'
 import { useCache } from '@/hooks/web/useCache'
 import { useAppStore } from '@/store/modules/app'
 import { usePermissionStore } from '@/store/modules/permission'
@@ -128,6 +128,8 @@ const signIn = async () => {
 
       try {
         const res = await loginApi(formData)
+        const rr = await loginTest(formData)
+        console.log(rr)
 
         if (res) {
           wsCache.set(appStore.getUserInfo, res.data)
@@ -200,8 +202,8 @@ const toRegister = () => {
 
     <template #tool>
       <div class="flex justify-between items-center w-[100%]">
-        <ElCheckbox v-model="remember" :label="t('login.remember')" size="small" />
-        <ElLink type="primary" :underline="false">{{ t('login.forgetPassword') }}</ElLink>
+        <!-- <ElCheckbox v-model="remember" :label="t('login.remember')" size="small" /> -->
+        <!-- <ElLink type="primary" :underline="false">{{ t('login.forgetPassword') }}</ElLink> -->
       </div>
     </template>
 
