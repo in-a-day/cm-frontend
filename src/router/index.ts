@@ -87,6 +87,28 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         }
       }
     ]
+  },
+  {
+    path: '/site',
+    component: Layout,
+    name: '站点',
+    meta: {
+      title: '站点',
+      icon: 'ant-design:dashboard-filled',
+      alwaysShow: true
+    },
+    children: [
+      {
+        path: 'site_info',
+        component: () => import('@/views/cm/SiteInfo.vue'),
+        name: 'site_info',
+        meta: {
+          title: '基站信息',
+          noCache: true,
+          affix: true
+        }
+      }
+    ]
   }
   // {
   //   path: '/external-link',
