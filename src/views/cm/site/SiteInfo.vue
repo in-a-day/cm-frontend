@@ -6,6 +6,7 @@ import { ref } from 'vue'
 import { ElTag, ElButton } from 'element-plus'
 import { TableColumn, TableSlotDefault } from '@/types/table'
 import { SiteInfo } from '@/api/cm/types'
+import { allSite } from '@/api/cm'
 
 const { t } = useI18n()
 
@@ -29,11 +30,13 @@ const loading = ref(true)
 let tableDataList = ref<SiteInfo[]>([])
 
 const getTableList = async () => {
-  tableDataList.value = [
-    { id: '1dfiafasjgdhfa', lng: 111.11, lat: 22.22 },
-    { id: 'hdfasfjasfwery', lng: 111.12, lat: 22.23 }
-  ]
-  loading.value = false
+  allSite()
+    .then((res: any) => {
+      tableDataList.value = res.data
+    })
+    .finally(() => {
+      loading.value = false
+    })
 }
 
 getTableList()
@@ -44,8 +47,8 @@ const actionFn = (data: TableSlotDefault) => {
 </script>
 
 <template>
-  <ContentWrap title="基站信息">
-    <Table :columns="columns" :data="tableDataList" :loading="loading">
+  <ContentWrap>
+    <Table :border="true" :columns="columns" :data="tableDataList" :loading="loading">
       <template #action="data">
         <ElButton type="primary" @click="actionFn(data as TableSlotDefault)">
           {{ t('tableDemo.action') }}

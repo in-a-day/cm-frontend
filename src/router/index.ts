@@ -91,19 +91,113 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
   {
     path: '/site',
     component: Layout,
-    name: '站点',
+    name: 'site',
     meta: {
-      title: '站点',
+      title: '基站信息查询',
       icon: 'ant-design:dashboard-filled',
       alwaysShow: true
     },
     children: [
       {
         path: 'site_info',
-        component: () => import('@/views/cm/SiteInfo.vue'),
+        component: () => import('@/views/cm/site/SiteInfo.vue'),
         name: 'site_info',
         meta: {
           title: '基站信息',
+          noCache: true,
+          affix: true
+        }
+      },
+      {
+        path: 'site_search',
+        component: () => import('@/views/cm/site/SiteSearch.vue'),
+        name: 'site_search',
+        meta: {
+          title: '模糊查询',
+          noCache: true,
+          affix: true
+        }
+      },
+      {
+        path: 'site_nearest',
+        component: () => import('@/views/cm/site/SiteNearest.vue'),
+        name: 'site_nearest',
+        meta: {
+          title: '最近的基站',
+          noCache: true,
+          affix: true
+        }
+      }
+    ]
+  },
+  {
+    path: '/traffic',
+    component: Layout,
+    name: 'traffic',
+    meta: {
+      title: '基站流量查询',
+      icon: 'ant-design:dashboard-filled',
+      alwaysShow: true
+    },
+    children: [
+      {
+        path: 'traffic_all',
+        component: () => import('@/views/cm/traffic/TrafficAll.vue'),
+        name: 'traffic_all',
+        meta: {
+          title: '日均流量',
+          noCache: true,
+          affix: true
+        }
+      },
+      {
+        path: 'traffic_search',
+        component: () => import('@/views/cm/traffic/TrafficSearch.vue'),
+        name: 'traffic_search',
+        meta: {
+          title: '模糊查询日均及每小时',
+          noCache: true,
+          affix: true
+        }
+      },
+      {
+        path: 'traffic_nearest',
+        component: () => import('@/views/cm/traffic/TrafficNearest.vue'),
+        name: 'traffic_nearest',
+        meta: {
+          title: '最近的基站流量',
+          noCache: true,
+          affix: true
+        }
+      }
+    ]
+  },
+  {
+    path: '/ex',
+    component: Layout,
+    name: 'ex',
+    meta: {
+      title: '异常数据查询',
+      icon: 'ant-design:dashboard-filled',
+      alwaysShow: true
+    },
+    children: [
+      {
+        path: 'ex_traffic',
+        component: () => import('@/views/cm/ex/ExData.vue'),
+        name: 'ex_traffic',
+        meta: {
+          title: '有流量无基站信息',
+          noCache: true,
+          affix: true
+        }
+      },
+      {
+        path: 'ex_site',
+        component: () => import('@/views/cm/ex/ExSite.vue'),
+        name: 'ex_site',
+        meta: {
+          title: '有基站信息但无流量',
           noCache: true,
           affix: true
         }

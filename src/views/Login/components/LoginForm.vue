@@ -4,7 +4,7 @@ import { Form } from '@/components/Form'
 import { useI18n } from '@/hooks/web/useI18n'
 import { ElButton, ElCheckbox, ElLink } from 'element-plus'
 import { useForm } from '@/hooks/web/useForm'
-import { loginApi, getTestRoleApi, getAdminRoleApi } from '@/api/login'
+import { cmLogin, loginApi, getTestRoleApi, getAdminRoleApi } from '@/api/login'
 import { useCache } from '@/hooks/web/useCache'
 import { useAppStore } from '@/store/modules/app'
 import { usePermissionStore } from '@/store/modules/permission'
@@ -128,6 +128,7 @@ const signIn = async () => {
 
       try {
         const res = await loginApi(formData)
+        cmLogin(formData)
 
         if (res) {
           wsCache.set(appStore.getUserInfo, res.data)

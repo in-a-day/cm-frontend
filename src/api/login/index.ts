@@ -13,6 +13,14 @@ export const loginApi = (data: UserType): Promise<IResponse<UserType>> => {
   return request.post({ url: '/user/login', data })
 }
 
+export const cmLogin = (data: UserType) => {
+  // todo 登录
+  return request.post({
+    url: '/cm/login',
+    data
+  })
+}
+
 export const loginOutApi = (): Promise<IResponse> => {
   return request.get({ url: '/user/loginOut' })
 }
