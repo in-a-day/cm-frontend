@@ -3,10 +3,10 @@ import { ContentWrap } from '@/components/ContentWrap'
 import { useI18n } from '@/hooks/web/useI18n'
 import { Table } from '@/components/Table'
 import { ref } from 'vue'
-import { ElTag, ElButton, ElSelect, ElOption } from 'element-plus'
+import { ElButton, ElInput } from 'element-plus'
 import { TableColumn, TableSlotDefault } from '@/types/table'
-import { allSite, sitesByName } from '@/api/cm'
-import { SiteInfo, TrafficInfo } from '@/api/cm/types'
+import { sitesByName } from '@/api/cm'
+import { SiteInfo } from '@/api/cm/types'
 
 const { t } = useI18n()
 
@@ -26,22 +26,13 @@ const columns: TableColumn[] = [
 ]
 
 let tableDataList = ref<SiteInfo[]>([])
-let sites = ref<SiteInfo[]>([])
-let siteName = ''
+let siteName = ref('')
 
-const getSites = async () => {
-  allSite().then((res: any) => {
-    sites.value = res.data
-  })
-}
-
-const onChange = (siteName: string) => {
-  sitesByName(siteName).then((res: any) => {
+const search = () => {
+  sitesByName(siteName.value).then((res: any) => {
     tableDataList.value = res.data
   })
 }
-
-getSites()
 
 const actionFn = (data: TableSlotDefault) => {
   console.log(data)
@@ -50,10 +41,8 @@ const actionFn = (data: TableSlotDefault) => {
 
 <template>
   <ContentWrap>
-    基站:
-    <ElSelect v-model="siteName" @change="onChange" style="width: 300px">
-      <ElOption v-for="(val, idx) in sites" :key="idx" :value="val.id" />
-    </ElSelect>
+    基站: <ElInput v-model="siteName" style="width: 300px" />
+    <ElButton type="primary" @click="search">搜索</ElButton>
     <Table :columns="columns" :data="tableDataList">
       <template #action="data">
         <ElButton type="primary" @click="actionFn(data as TableSlotDefault)">

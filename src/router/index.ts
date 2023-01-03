@@ -3,6 +3,7 @@ import type { RouteRecordRaw } from 'vue-router'
 import type { App } from 'vue'
 import { Layout, getParentLayout } from '@/utils/routerHelper'
 import { useI18n } from '@/hooks/web/useI18n'
+import { userInfo } from 'os'
 
 const { t } = useI18n()
 
@@ -10,7 +11,7 @@ export const constantRouterMap: AppRouteRecordRaw[] = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard/analysis',
+    redirect: '/site/site_info',
     name: 'Root',
     meta: {
       hidden: true
@@ -56,41 +57,43 @@ export const constantRouterMap: AppRouteRecordRaw[] = [
 ]
 
 export const asyncRouterMap: AppRouteRecordRaw[] = [
-  {
-    path: '/dashboard',
-    component: Layout,
-    redirect: '/dashboard/analysis',
-    name: 'Dashboard',
-    meta: {
-      title: t('router.dashboard'),
-      icon: 'ant-design:dashboard-filled',
-      alwaysShow: true
-    },
-    children: [
-      {
-        path: 'analysis',
-        component: () => import('@/views/Dashboard/Analysis.vue'),
-        name: 'Analysis',
-        meta: {
-          title: t('router.analysis'),
-          noCache: true,
-          affix: true
-        }
-      },
-      {
-        path: 'workplace',
-        component: () => import('@/views/Dashboard/Workplace.vue'),
-        name: 'Workplace',
-        meta: {
-          title: t('router.workplace'),
-          noCache: true
-        }
-      }
-    ]
-  },
+  // {
+  //   path: '/dashboard',
+  //   component: Layout,
+  //   redirect: '/dashboard/analysis',
+  //   name: 'Dashboard',
+  //   meta: {
+  //     hidden: true,
+  //     title: t('router.dashboard'),
+  //     icon: 'ant-design:dashboard-filled',
+  //     alwaysShow: true
+  //   },
+  //   children: [
+  //     {
+  //       path: 'analysis',
+  //       component: () => import('@/views/Dashboard/Analysis.vue'),
+  //       name: 'Analysis',
+  //       meta: {
+  //         title: t('router.analysis'),
+  //         noCache: true,
+  //         affix: true
+  //       }
+  //     },
+  //     {
+  //       path: 'workplace',
+  //       component: () => import('@/views/Dashboard/Workplace.vue'),
+  //       name: 'Workplace',
+  //       meta: {
+  //         title: t('router.workplace'),
+  //         noCache: true
+  //       }
+  //     }
+  //   ]
+  // },
   {
     path: '/site',
     component: Layout,
+    redirect: '/site/site_info',
     name: 'site',
     meta: {
       title: '基站信息查询',

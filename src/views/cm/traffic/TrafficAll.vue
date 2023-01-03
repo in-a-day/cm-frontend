@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ContentWrap } from '@/components/ContentWrap'
 import { useI18n } from '@/hooks/web/useI18n'
 import { Table } from '@/components/Table'
 import { ref } from 'vue'

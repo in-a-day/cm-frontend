@@ -3,7 +3,7 @@ import { ContentWrap } from '@/components/ContentWrap'
 import { useI18n } from '@/hooks/web/useI18n'
 import { Table } from '@/components/Table'
 import { ref } from 'vue'
-import { ElTag, ElButton } from 'element-plus'
+import { ElButton } from 'element-plus'
 import { TableColumn, TableSlotDefault } from '@/types/table'
 import { SiteInfo } from '@/api/cm/types'
 import { allSite } from '@/api/cm'
@@ -25,18 +25,12 @@ const columns: TableColumn[] = [
   }
 ]
 
-const loading = ref(true)
-
 let tableDataList = ref<SiteInfo[]>([])
 
 const getTableList = async () => {
-  allSite()
-    .then((res: any) => {
-      tableDataList.value = res.data
-    })
-    .finally(() => {
-      loading.value = false
-    })
+  allSite().then((res: any) => {
+    tableDataList.value = res.data
+  })
 }
 
 getTableList()
@@ -48,7 +42,7 @@ const actionFn = (data: TableSlotDefault) => {
 
 <template>
   <ContentWrap>
-    <Table :border="true" :columns="columns" :data="tableDataList" :loading="loading">
+    <Table :border="true" :columns="columns" :data="tableDataList">
       <template #action="data">
         <ElButton type="primary" @click="actionFn(data as TableSlotDefault)">
           {{ t('tableDemo.action') }}

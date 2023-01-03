@@ -3,13 +3,15 @@ import { Form } from '@/components/Form'
 import { reactive, ref, unref } from 'vue'
 import { useI18n } from '@/hooks/web/useI18n'
 import { useForm } from '@/hooks/web/useForm'
-import { ElButton, ElInput, FormRules } from 'element-plus'
+import { ElButton, FormRules } from 'element-plus'
 import { useValidator } from '@/hooks/web/useValidator'
 import { FormSchema } from '@/types/form'
+import { cmRegister } from '@/api/login'
+import { UserType } from '@/api/login/types'
 
 const emit = defineEmits(['to-login'])
 
-const { register, elFormRef } = useForm()
+const { register, elFormRef, methods } = useForm()
 
 const { t } = useI18n()
 
@@ -50,29 +52,29 @@ const schema = reactive<FormSchema[]>([
       placeholder: t('login.passwordPlaceholder')
     }
   },
-  {
-    field: 'check_password',
-    label: t('login.checkPassword'),
-    value: '',
-    component: 'InputPassword',
-    colProps: {
-      span: 24
-    },
-    componentProps: {
-      style: {
-        width: '100%'
-      },
-      strength: true,
-      placeholder: t('login.passwordPlaceholder')
-    }
-  },
-  {
-    field: 'code',
-    label: t('login.code'),
-    colProps: {
-      span: 24
-    }
-  },
+  // {
+  //   field: 'check_password',
+  //   label: t('login.checkPassword'),
+  //   value: '',
+  //   component: 'InputPassword',
+  //   colProps: {
+  //     span: 24
+  //   },
+  //   componentProps: {
+  //     style: {
+  //       width: '100%'
+  //     },
+  //     strength: true,
+  //     placeholder: t('login.passwordPlaceholder')
+  //   }
+  // },
+  // {
+  //   field: 'code',
+  //   label: t('login.code'),
+  //   colProps: {
+  //     span: 24
+  //   }
+  // },
   {
     field: 'register',
     colProps: {
@@ -83,9 +85,7 @@ const schema = reactive<FormSchema[]>([
 
 const rules: FormRules = {
   username: [required()],
-  password: [required()],
-  check_password: [required()],
-  code: [required()]
+  password: [required()]
 }
 
 const toLogin = () => {
@@ -95,12 +95,21 @@ const toLogin = () => {
 const loading = ref(false)
 
 const loginRegister = async () => {
+  // 此处调用注册接口
   const formRef = unref(elFormRef)
   formRef?.validate(async (valid) => {
+    const { getFormData } = methods
+    const formData = await getFormData<UserType>()
     if (valid) {
       try {
-        loading.value = true
-        toLogin()
+        await cmRegister(formData).then((res: any) => {
+          console.log(res)
+          if (res.data.code === 200) {
+            toLogin()
+          } else {
+            // 打印错误信息
+          }
+        })
       } finally {
         loading.value = false
       }
@@ -121,12 +130,6 @@ const loginRegister = async () => {
   >
     <template #title>
       <h2 class="text-2xl font-bold text-center w-[100%]">{{ t('login.register') }}</h2>
-    </template>
-
-    <template #code="form">
-      <div class="w-[100%] flex">
-        <ElInput v-model="form['code']" :placeholder="t('login.codePlaceholder')" />
-      </div>
     </template>
 
     <template #register>

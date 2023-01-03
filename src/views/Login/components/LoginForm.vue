@@ -2,9 +2,9 @@
 import { reactive, ref, unref, watch } from 'vue'
 import { Form } from '@/components/Form'
 import { useI18n } from '@/hooks/web/useI18n'
-import { ElButton, ElCheckbox, ElLink } from 'element-plus'
+import { ElButton, ElMessage } from 'element-plus'
 import { useForm } from '@/hooks/web/useForm'
-import { cmLogin, loginApi, getTestRoleApi, getAdminRoleApi } from '@/api/login'
+import { cmLogin, getTestRoleApi, getAdminRoleApi } from '@/api/login'
 import { useCache } from '@/hooks/web/useCache'
 import { useAppStore } from '@/store/modules/app'
 import { usePermissionStore } from '@/store/modules/permission'
@@ -43,7 +43,7 @@ const schema = reactive<FormSchema[]>([
   {
     field: 'username',
     label: t('login.username'),
-    value: 'admin',
+    value: '',
     component: 'Input',
     colProps: {
       span: 24
@@ -55,7 +55,7 @@ const schema = reactive<FormSchema[]>([
   {
     field: 'password',
     label: t('login.password'),
-    value: 'admin',
+    value: '',
     component: 'InputPassword',
     colProps: {
       span: 24
@@ -97,8 +97,6 @@ const schema = reactive<FormSchema[]>([
 
 const iconSize = 30
 
-const remember = ref(false)
-
 const { register, elFormRef, methods } = useForm()
 
 const loading = ref(false)
@@ -127,11 +125,15 @@ const signIn = async () => {
       const formData = await getFormData<UserType>()
 
       try {
-        const res = await loginApi(formData)
-        cmLogin(formData)
+        // const res = await loginApi(formData)
+        const res = await cmLogin(formData)
+        if (res.data.code === 500) {
+          ElMessage.error(res.data.msg)
+          return
+        }
 
         if (res) {
-          wsCache.set(appStore.getUserInfo, res.data)
+          wsCache.set(appStore.getUserInfo, res.data.data)
           // 是否使用动态路由
           if (appStore.getDynamicRouter) {
             getRole()

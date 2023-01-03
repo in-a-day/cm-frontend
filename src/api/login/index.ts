@@ -21,6 +21,19 @@ export const cmLogin = (data: UserType) => {
   })
 }
 
+export const cmLogout = () => {
+  return request.post({
+    url: '/cm/logout'
+  })
+}
+
+export const cmRegister = (data: UserType) => {
+  return request.post({
+    url: '/cm/register',
+    data
+  })
+}
+
 export const loginOutApi = (): Promise<IResponse> => {
   return request.get({ url: '/user/loginOut' })
 }

@@ -29,7 +29,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     env = loadEnv(mode, root)
   }
   return {
-    base: env.VITE_BASE_PATH,
+    base: './',
     plugins: [
       Vue(),
       VueJsx(),
@@ -98,7 +98,8 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       ]
     },
     build: {
-      minify: 'terser',
+      // minify: 'terser',
+      minify: 'esbuild',
       outDir: env.VITE_OUT_DIR || 'dist',
       sourcemap: env.VITE_SOURCEMAP === 'true' ? 'inline' : false,
       // brotliSize: false,

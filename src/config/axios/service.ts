@@ -12,6 +12,8 @@ import { config } from './config'
 
 import { ElMessage } from 'element-plus'
 
+import { resetRouter } from '@/router'
+
 const { result_code, base_url } = config
 
 export const PATH_URL = base_url[import.meta.env.VITE_API_BASEPATH]
@@ -69,6 +71,8 @@ service.interceptors.response.use(
       return response
     } else if (response.data.code === result_code) {
       return response.data
+    } else if (response.data.code === '500') {
+      // nothing
     } else {
       return response
     }

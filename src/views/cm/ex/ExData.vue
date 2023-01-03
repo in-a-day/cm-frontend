@@ -3,7 +3,7 @@ import { ContentWrap } from '@/components/ContentWrap'
 import { useI18n } from '@/hooks/web/useI18n'
 import { Table } from '@/components/Table'
 import { ref } from 'vue'
-import { ElTag, ElButton } from 'element-plus'
+import { ElButton } from 'element-plus'
 import { TableColumn, TableSlotDefault } from '@/types/table'
 import { dataWithoutSiteInfo, downloadDataWithoutSiteInfo } from '@/api/cm'
 

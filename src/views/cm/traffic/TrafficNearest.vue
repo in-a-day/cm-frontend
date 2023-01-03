@@ -21,8 +21,6 @@ const columns: TableColumn[] = [
   }
 ]
 
-const loading = ref(true)
-
 let tableDataList = ref<TrafficInfo[]>([])
 let sites = ref<SiteInfo[]>([])
 let siteName = ''
@@ -52,13 +50,7 @@ const actionFn = (data: TableSlotDefault) => {
     <ElSelect v-model="siteName" @change="onChange" style="width: 300px">
       <ElOption v-for="(val, idx) in sites" :key="idx" :value="val.id" />
     </ElSelect>
-    <Table
-      style="margin-top: 10px"
-      :border="true"
-      :columns="columns"
-      :data="tableDataList"
-      :loading="loading"
-    >
+    <Table style="margin-top: 10px" :border="true" :columns="columns" :data="tableDataList">
       <template #action="data">
         <ElButton type="primary" @click="actionFn(data as TableSlotDefault)">
           {{ t('tableDemo.action') }}
